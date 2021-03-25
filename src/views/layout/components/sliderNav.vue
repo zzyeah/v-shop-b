@@ -13,8 +13,8 @@
       </a-breadcrumb>
     </div>
     <ul class="user-info">
-      <li>
-        欢迎帅哥
+      <li class="user-name">
+        {{ $store.state.user.username }}
         <a-icon type="down" />
       </li>
       <li>退出登录</li>
