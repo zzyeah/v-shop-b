@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '@/store';
 import Home from '../views/layout/Home.vue';
 import Login from '../views/layout/Login.vue';
 
@@ -14,7 +15,7 @@ const routes = [
   },
   {
     path: '/login',
-    name: 'login',
+    name: 'Login',
     component: Login,
   },
   {
@@ -30,5 +31,23 @@ const routes = [
 const router = new VueRouter({
   routes,
 });
+
+// hook
+router.beforeEach((to, from, next) => {
+  const userInfo = store.state.user;
+  if (to.path !== '/Login') {
+    if (userInfo.appkey && userInfo.username && userInfo.role) {
+      return next();
+    }
+    return next('/Login');
+  }
+  return next();
+});
+
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject);
+  return originalPush.call(this, location).catch((err) => err);
+};
 
 export default router;

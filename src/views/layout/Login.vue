@@ -27,7 +27,6 @@ export default {
     const emailReg = /^[\w-]+@[\w.-]+.com$/;
     const checkEmail = (rule, value, callback) => {
       if (!value) {
-        console.log(value);
         return callback(new Error('请输入邮箱'));
       }
       if (emailReg.test(value)) {
