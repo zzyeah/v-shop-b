@@ -11,6 +11,8 @@ const asynRouterMap = [{
   name: 'Product',
   meta: {
     title: '商品',
+    icon: 'inbox',
+    hidden: false,
   },
   component: Home,
   children: [{
@@ -18,13 +20,17 @@ const asynRouterMap = [{
     name: 'ProductList',
     meta: {
       title: '商品列表',
+      icon: 'unordered-list',
+      hidden: false,
     },
     component: () => import('@/views/page/productList.vue'),
   }, {
     path: 'add',
-    name: 'ProductList',
+    name: 'ProductAdd',
     meta: {
       title: '添加商品',
+      icon: 'file-add',
+      hidden: false,
     },
     component: () => import('@/views/page/productAdd.vue'),
   }, {
@@ -32,6 +38,8 @@ const asynRouterMap = [{
     name: 'Category',
     meta: {
       title: '类目管理',
+      icon: 'project',
+      hidden: false,
     },
     component: () => import('@/views/page/category.vue'),
   }],
@@ -44,15 +52,19 @@ const routes = [
     component: Home,
     meta: {
       title: '首页',
+      icon: 'home',
+      hidden: false,
     },
     children: [{
       path: 'index',
       name: 'Index',
       meta: {
         title: '统计',
+        icon: 'number',
+        hidden: false,
       },
       // 懒加载
-      component: () => import('../views/layout/Login.vue'),
+      component: () => import('../views/page/index.vue'),
     }],
   },
   {
@@ -61,6 +73,7 @@ const routes = [
     component: Login,
     meta: {
       title: '登录',
+      hidden: true,
     },
   },
 ];
@@ -77,8 +90,10 @@ router.beforeEach((to, from, next) => {
     if (userInfo.appkey && userInfo.username && userInfo.role) {
       if (!isAddRoutes) {
         const menuRoutes = getMenuRoutes(userInfo.role, asynRouterMap);
-        router.addRoutes(menuRoutes);
-        store.dispatch('changeMenuRoutes', routes.concat(menuRoutes));
+        store.dispatch('changeMenuRoutes', routes.concat(menuRoutes)).then(() => {
+          router.addRoutes(menuRoutes);
+          next();
+        });
         isAddRoutes = true;
       }
       return next();
