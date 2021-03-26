@@ -1,30 +1,67 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '@/store';
+import getMenuRoutes from '@/utils/permission';
 import Home from '../views/layout/Home.vue';
 import Login from '../views/layout/Login.vue';
 
 Vue.use(VueRouter);
+const asynRouterMap = [{
+  path: '/product',
+  name: 'Product',
+  meta: {
+    title: '商品',
+  },
+  component: Home,
+  children: [{
+    path: 'list',
+    name: 'ProductList',
+    meta: {
+      title: '商品列表',
+    },
+    component: () => import('@/views/page/productList.vue'),
+  }, {
+    path: 'add',
+    name: 'ProductList',
+    meta: {
+      title: '添加商品',
+    },
+    component: () => import('@/views/page/productAdd.vue'),
+  }, {
+    path: 'category',
+    name: 'Category',
+    meta: {
+      title: '类目管理',
+    },
+    component: () => import('@/views/page/category.vue'),
+  }],
+}];
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home,
-    children: [],
+    meta: {
+      title: '首页',
+    },
+    children: [{
+      path: 'index',
+      name: 'Index',
+      meta: {
+        title: '统计',
+      },
+      // 懒加载
+      component: () => import('../views/layout/Login.vue'),
+    }],
   },
   {
     path: '/login',
     name: 'Login',
     component: Login,
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    meta: {
+      title: '登录',
+    },
   },
 ];
 
@@ -33,10 +70,17 @@ const router = new VueRouter({
 });
 
 // hook
+let isAddRoutes = false;
 router.beforeEach((to, from, next) => {
   const userInfo = store.state.user;
   if (to.path !== '/Login') {
     if (userInfo.appkey && userInfo.username && userInfo.role) {
+      if (!isAddRoutes) {
+        const menuRoutes = getMenuRoutes(userInfo.role, asynRouterMap);
+        router.addRoutes(menuRoutes);
+        store.dispatch('changeMenuRoutes', routes.concat(menuRoutes));
+        isAddRoutes = true;
+      }
       return next();
     }
     return next('/Login');
