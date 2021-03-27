@@ -53,5 +53,16 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
+.user-info{
+  position: relative;
+  right: 0px;
+  top: 0px;
+  .login-out {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    z-index: 1024;
+  }
+}
 </style>

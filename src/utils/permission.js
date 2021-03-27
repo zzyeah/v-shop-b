@@ -9,6 +9,8 @@ const roleToRoute = {
     name: 'ProductList',
   }, {
     name: 'ProductAdd',
+  }, {
+    name: 'ProductEdit',
   }],
   admin: [{
     name: 'Product',

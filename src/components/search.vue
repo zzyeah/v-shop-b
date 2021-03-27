@@ -10,7 +10,7 @@
           placeholder="请选择商品类目"
           style="width: 200px"
           @change="handleChange"
-          allowclear
+          allowClear
         >
           <a-select-option v-for="c in data"
           :key="c.id" :value="c.id">{{ c.name }}</a-select-option>
