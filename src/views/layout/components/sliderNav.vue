@@ -5,10 +5,15 @@
     </a-button>
 
     <div class="breadcrumb">
-      <a-breadcrumb>
-        <a-breadcrumb-item>首页</a-breadcrumb-item>
+      <a-breadcrumb v-if="currentRoutes.length > 1">
+        <a-breadcrumb-item>{{
+          currentRoutes[0] ?
+          currentRoutes[0].meta.title : ''
+        }}</a-breadcrumb-item>
         <a-breadcrumb-item>
-          <a href>统计</a>
+          <a href>
+            {{ currentRoutes[1] ? currentRoutes[1].meta.title : '' }}
+          </a>
         </a-breadcrumb-item>
       </a-breadcrumb>
     </div>
@@ -24,8 +29,15 @@
 
 <script>
 export default {
+  watch: {
+    $route() {
+      this.currentRoutes = this.$router.currentRoute.matched;
+    },
+  },
   data() {
-    return {};
+    return {
+      currentRoutes: this.$router.currentRoute.matched,
+    };
   },
   methods: {
     toggleCollapsed() {

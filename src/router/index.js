@@ -6,50 +6,53 @@ import Home from '../views/layout/Home.vue';
 import Login from '../views/layout/Login.vue';
 
 Vue.use(VueRouter);
-const asynRouterMap = [{
-  path: '/product',
-  name: 'Product',
-  meta: {
-    title: '商品',
-    icon: 'inbox',
-    hidden: false,
+const asynRouterMap = [
+  {
+    path: '/product',
+    name: 'Product',
+    meta: {
+      title: '商品',
+      icon: 'inbox',
+      hidden: false,
+    },
+    component: Home,
+    children: [{
+      path: 'list',
+      name: 'ProductList',
+      meta: {
+        title: '商品列表',
+        icon: 'unordered-list',
+        hidden: false,
+      },
+      component: () => import('@/views/page/productList.vue'),
+    }, {
+      path: 'add',
+      name: 'ProductAdd',
+      meta: {
+        title: '添加商品',
+        icon: 'file-add',
+        hidden: false,
+      },
+      component: () => import('@/views/page/productAdd.vue'),
+    }, {
+      path: 'category',
+      name: 'Category',
+      meta: {
+        title: '类目管理',
+        icon: 'project',
+        hidden: false,
+      },
+      component: () => import('@/views/page/category.vue'),
+    }],
   },
-  component: Home,
-  children: [{
-    path: 'list',
-    name: 'ProductList',
-    meta: {
-      title: '商品列表',
-      icon: 'unordered-list',
-      hidden: false,
-    },
-    component: () => import('@/views/page/productList.vue'),
-  }, {
-    path: 'add',
-    name: 'ProductAdd',
-    meta: {
-      title: '添加商品',
-      icon: 'file-add',
-      hidden: false,
-    },
-    component: () => import('@/views/page/productAdd.vue'),
-  }, {
-    path: 'category',
-    name: 'Category',
-    meta: {
-      title: '类目管理',
-      icon: 'project',
-      hidden: false,
-    },
-    component: () => import('@/views/page/category.vue'),
-  }],
-}];
+];
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home,
+    redirect: '/index',
     meta: {
       title: '首页',
       icon: 'home',

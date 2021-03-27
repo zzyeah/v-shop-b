@@ -1,9 +1,17 @@
 <template>
-    <div>首页</div>
+  <div class="index">
+    <card></card>
+  </div>
 </template>
 
 <script>
-export default {};
+import Card from '@/components/card.vue';
+
+export default {
+  components: {
+    Card,
+  },
+};
 </script>
 
 <style>
