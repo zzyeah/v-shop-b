@@ -12,7 +12,7 @@
           @change="handleChange"
           allowclear
         >
-          <a-select-option v-for="c in categoryList"
+          <a-select-option v-for="c in data"
           :key="c.id" :value="c.id">{{ c.name }}</a-select-option>
         </a-select>
       </a-form-model-item>
@@ -26,8 +26,6 @@
   </div>
 </template>
 <script>
-import api from '@/api/category';
-
 export default {
   data() {
     return {
@@ -35,9 +33,9 @@ export default {
         searchWord: '',
         category: '',
       },
-      categoryList: [],
     };
   },
+  props: ['data'],
   methods: {
     //   提交表单的时候触发的函数
     handleSubmit() {
@@ -49,9 +47,6 @@ export default {
     },
   },
   created() {
-    api.list().then((res) => {
-      this.categoryList = res.data;
-    });
   },
 };
 </script>

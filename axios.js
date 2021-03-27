@@ -6,7 +6,6 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use((config) => {
-  console.log(config);
   if (config.url.includes('/passport')) {
     return config;
   }
@@ -20,7 +19,6 @@ instance.interceptors.request.use((config) => {
 }, (error) => Promise.reject(error));
 
 instance.interceptors.response.use((response) => {
-  console.log(response);
   if (response.data.status === 'fail') {
     return Promise.reject(response.data.msg);
   }
