@@ -64,7 +64,7 @@
           >包邮，最晚次日达</a-select-option>
         </a-select>
       </a-form-model-item>
-      <a-form-model-item label=" " class="next-btn">
+      <a-form-model-item label="" class="next-btn" :wrapperCol="{span: 24}">
         <a-button
         type="primary"
         @click="next"
@@ -80,19 +80,13 @@ import categoryApi from '@/api/category';
 export default {
   data() {
     return {
-      form: {
-        title: '',
-        desc: '',
-        category: '',
-        c_items: [],
-        tags: [],
-      },
       size: 'default',
       rules: {},
       categoryList: [],
       categoryItems: [],
     };
   },
+  props: ['form'],
   methods: {
     changeCategory(category) {
       this.categoryItems = category.c_items;

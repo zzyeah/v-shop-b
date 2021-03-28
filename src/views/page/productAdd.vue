@@ -4,13 +4,20 @@
       <a-step v-for="item in steps" :key="item.title" :title="item.title" />
     </a-steps>
     <div class="steps-content">
-      <basic-info v-if="current === 0" @next="next"/>
-      <sale-info v-else-if="current === 1" />
+      <basic-info v-if="current === 0"
+      @next="next"
+      :form="form"/>
+      <sale-info v-else-if="current === 1"
+      @next="next"
+      @prev="prev"
+      :form="form"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import api from '@/api/product';
 import BasicInfo from '../../components/basicDetail.vue';
 import SaleInfo from '../../components/saleDetail.vue';
 
@@ -18,6 +25,18 @@ export default {
   data() {
     return {
       current: 0,
+      form: {
+        title: '',
+        desc: '',
+        category: '',
+        c_items: [],
+        tags: [],
+        price: 0,
+        price_off: 0,
+        unit: '',
+        inventory: 0,
+        images: [],
+      },
       steps: [
         {
           title: '填写商品基本信息',
@@ -34,8 +53,21 @@ export default {
   },
   methods: {
     next(form) {
-      this.current += 1;
-      console.log(form);
+      if (this.current === 1) {
+        api.add(this.form).then((res) => {
+          console.log(res);
+          this.$message.success('新增成功');
+          this.$router.push({
+            name: 'ProductList',
+          });
+        });
+      } else {
+        this.current += 1;
+      }
+      this.form = {
+        ...this.form,
+        form,
+      };
     },
     prev() {
       this.current -= 1;
