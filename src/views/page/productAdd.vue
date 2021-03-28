@@ -54,13 +54,23 @@ export default {
   methods: {
     next(form) {
       if (this.current === 1) {
-        api.add(this.form).then((res) => {
-          console.log(res);
-          this.$message.success('新增成功');
-          this.$router.push({
-            name: 'ProductList',
+        if (this.$route.params.id) {
+          api.edit(this.form).then((res) => {
+            console.log(res);
+            this.$message.success('修改成功');
+            this.$router.push({
+              name: 'ProductList',
+            });
           });
-        });
+        } else {
+          api.add(this.form).then((res) => {
+            console.log(res);
+            this.$message.success('新增成功');
+            this.$router.push({
+              name: 'ProductList',
+            });
+          });
+        }
       } else {
         this.current += 1;
       }
@@ -72,6 +82,15 @@ export default {
     prev() {
       this.current -= 1;
     },
+  },
+  created() {
+    const { id } = this.$route.params;
+    if (id) {
+      // 读取商品详情
+      api.detail(id).then((res) => {
+        this.form = res;
+      });
+    }
   },
 };
 </script>
