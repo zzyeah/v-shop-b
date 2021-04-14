@@ -1,5 +1,6 @@
 <template>
   <div class="login">
+    <div class="login-name">网上购物系统后台管理</div>
       <a-form-model class="login-form"
   ref="loginForm" :model="loginForm" :rules="rules" v-bind="layout">
     <a-form-model-item has-feedback label="邮箱" prop="email">
@@ -47,7 +48,7 @@ export default {
     return {
       loginForm: {
         password: '',
-        username: '',
+        email: '',
       },
       rules: {
         password: [{ validator: validatePass, trigger: 'change' }],

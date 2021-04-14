@@ -63,6 +63,8 @@ export default {
     top: 50px;
     right: 10px;
     z-index: 1024;
+    background: #000;
+    color: #eee;
   }
 }
 </style>

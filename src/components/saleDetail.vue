@@ -82,7 +82,7 @@ export default {
   },
   props: ['form'],
   created() {
-    console.log(this.form);
+    // console.log(this.form);
     if (this.form.images.length > 0) {
       this.fileList = this.form.images.map((item, index) => ({
         uid: index,
@@ -94,13 +94,20 @@ export default {
   },
   methods: {
     handleChange({ file, fileList }) {
+      console.log('file=====', file);
+      console.log('filelist=====', fileList);
       this.fileList = fileList;
       if (file.status === 'done') {
         this.form.images.push(file.response.data.url);
       } else if (file.status === 'removed') {
-        const { url } = file.response.data;
-        console.log(url);
-        this.form.images = this.form.images.filter((item) => item !== url);
+        // const { url } = file.response.data || file;
+        if (file.response) {
+          const { url } = file.response.data;
+          this.form.images = this.form.images.filter((item) => item !== url);
+        } else if (file) {
+          const { url } = file;
+          this.form.images = this.form.images.filter((item) => item !== url);
+        }
       }
     },
     next() {

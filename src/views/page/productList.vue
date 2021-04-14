@@ -31,7 +31,7 @@ export default {
       categoryList: [],
       page: {
         current: 1,
-        pageSize: 10,
+        pageSize: 8,
         showSizeChanger: true,
         total: 1,
       },
@@ -67,8 +67,9 @@ export default {
           this.page.total = res.total;
           this.tableData = res.data.map((item) => ({
             ...item,
-            categoryName: this.categoryObj[item.category].name,
+            categoryName: this.categoryObj[item.category].name || '',
           }));
+          console.log(this.tableData);
         });
     },
     changePage(page) {

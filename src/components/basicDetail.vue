@@ -100,7 +100,7 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.$emit('next', this.form);
-          console.log(this.form);
+          // console.log(this.form);
           return true;
         }
         console.log('error submit!!');
