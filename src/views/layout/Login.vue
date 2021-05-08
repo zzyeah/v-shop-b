@@ -39,6 +39,9 @@ export default {
       if (value === '') {
         callback(new Error('请输入密码'));
       } else {
+        if (this.loginForm.checkPass !== '') {
+          this.$refs.loginForm.validateField('checkPass');
+        }
         callback();
       }
     };
