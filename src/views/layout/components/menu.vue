@@ -54,7 +54,7 @@ export default {
   watch: {
     $route(val) {
       console.log(val);
-      this.$router = val;
+      // this.$router = val;
     },
   },
   created() {

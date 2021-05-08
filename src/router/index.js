@@ -97,11 +97,11 @@ const router = new VueRouter({
 // hook
 let isAddRoutes = false;
 router.beforeEach((to, from, next) => {
-  const userInfo = store.state.user;
+  // const userInfo = store.state.user;
   if (to.path !== '/Login') {
-    if (userInfo.appkey && userInfo.username && userInfo.role) {
+    if (store.state.user.appkey && store.state.user.username && store.state.user.role) {
       if (!isAddRoutes) {
-        const menuRoutes = getMenuRoutes(userInfo.role, asynRouterMap);
+        const menuRoutes = getMenuRoutes(store.state.user.role, asynRouterMap);
         store.dispatch('changeMenuRoutes', routes.concat(menuRoutes)).then(() => {
           router.addRoutes(menuRoutes);
           next();
